@@ -72,7 +72,7 @@ void saveConfigCallback () {
   shouldSaveConfig = true;
 }
 
-void callback(char* topic, byte* payload, unsigned int length) {
+void callback( char* topic, byte* payload, unsigned int length) {
   Serial.print("Message arrived [");
   Serial.print(topic);
   Serial.print("] ");
