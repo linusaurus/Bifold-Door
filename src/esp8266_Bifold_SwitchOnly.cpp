@@ -4,7 +4,8 @@
  BiFold relay control with Autoconnect and MQTT controls
  for capacitive switched bifolding doors
  Switch activation requires three(3) sequencial taps
- v-5.0a  r.young 2-5-2019 --
+ v-5.0a  r.young 2-5-2019 -
+ LongPressVersion-
 */
 #include <FS.h>
 #include <ArduinoJson.h>    
@@ -178,6 +179,7 @@ void handleTestEvent(AceButton* /*button*/, uint8_t eventType,
 
 void setup() {
 
+  pinMode(D6,INPUT_PULLUP);
   pinMode(LED_BUILTIN, OUTPUT);     // Initialize the LED_BUILTIN pin as an output
   Serial.begin(9600);
 
