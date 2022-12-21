@@ -1,11 +1,16 @@
 
 
-/*
- BiFold relay control with Autoconnect and MQTT controls
- for capacitive switched bifolding doors
- Switch activation requires three(3) sequencial taps
- v-5.0a  r.young 2-5-2019 --
-*/
+/*--------------------------------------------------/
+ DESIGNSYNTHESIS Inc.  12-21-2022                   /
+ BiFold relay control                               /
+ for capacitive switched bifolding doors            /
+ Switch activation requires three(3)sequencial taps /
+ Work in conjunction with Progressive Automation    /
+ Actuator controller.                               /
+ v-5.0a  r.young 2-5-2019 --                        /
+ revised 12-20-2022 r. young --                     /
+ removed all wifi and MQTT Capacities               /
+---------------------------------------------------*/
 #include <FS.h>
 #include <ArduinoJson.h>    
 #include <ESP8266WiFi.h>
@@ -16,15 +21,6 @@ using namespace ace_button;
 //#include <ButtonConfig.h>
 #include <Atm_esp8266.h>
  
-//-----------------------------------------------------------------------------------
-// WiFI network values
-//-----------------------------------------------------------------------------------
-//const char* ssid = "MonkeyRanch";
-//const char* password = "12345678";
-//const char* mqtt_server = "10.3.141.1";
-//WiFiClient espClient;
-//PubSubClient client(espClient);
-//-----------------------------------------------------------------------------------
 long lastMsg = 0;
 char msg[50];
 int value = 0;
@@ -109,8 +105,6 @@ void handleTestEvent(AceButton* /*button*/, uint8_t eventType,
       }
      break;
     
-
-      
   }
 }
 
