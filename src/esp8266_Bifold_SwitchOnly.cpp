@@ -201,7 +201,8 @@ void OnSwitchChanged()
     EEPROM.write(1,LAST_COMMAND);
     EEPROM.commit();
     Serial.println("SWITCH_OPEN");
-
+    led.begin(LED_BUILTIN).blink(500,200);
+    led.trigger(led.EVT_BLINK);
   }
   
   if(DOOR_STATE==1 && digitalRead(D0)==LOW){
@@ -210,6 +211,8 @@ void OnSwitchChanged()
     Serial.println("SWITCH_CLOSE");
     EEPROM.write(1,LAST_COMMAND);
     EEPROM.commit();
+    led.begin(LED_BUILTIN).blink(1000,20);
+    led.trigger(led.EVT_BLINK);
   }
 }
 
