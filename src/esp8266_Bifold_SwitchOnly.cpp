@@ -26,10 +26,13 @@ char msg[50];
 int value = 0;
 unsigned long   BEACON_DELAY = 2000;
 unsigned long   INTERVAL_DURATION = 500;
+unsigned long   MOTION_INTERVAL = 5000;
 unsigned long   RELAY_FIRED;
+ long   MOTION_FIRED = 6000;
 unsigned long   ONLINE_START;
 unsigned long   TOP_RANGE;
 const int       BUTTON_PIN = D0;
+const int       MOTION_SENSOR = D3;
 
 
 Atm_led led;
@@ -37,6 +40,8 @@ Atm_timer timer;
 int DOOR_STATE = 0;
 int LAST_STATE = 0;
 int LAST_COMMAND = 0;
+int MOTION_DETECTED = 0;
+
 bool STARTUP= false;
 
 AceButton button(BUTTON_PIN);
@@ -80,6 +85,12 @@ void OnStateChanged()
       EEPROM.write(1,LAST_STATE);
       EEPROM.commit();
     }
+    if (MOTION_DETECTED==1)
+    {
+      MOTION_FIRED = millis();
+      Serial.println("Motion Destected");
+    }
+    
   
 }
 /*
@@ -103,8 +114,7 @@ void handleTestEvent(AceButton* /*button*/, uint8_t eventType,
         Serial.print("Door State=");
         Serial.println(DOOR_STATE);        
       }
-     break;
-    
+     break; 
   }
 }
 
@@ -121,9 +131,11 @@ void setup() {
   pinMode(D5,OUTPUT);
   pinMode(D6,OUTPUT);
   pinMode(D7,OUTPUT);
+  pinMode(MOTION_SENSOR,INPUT);
   digitalWrite(D5,HIGH);
   digitalWrite(D6,HIGH);
   digitalWrite(D7,LOW);
+  digitalWrite(MOTION_SENSOR,LOW);
 
  
   //-------------------------------------------------
@@ -172,7 +184,7 @@ void loop() {
   //OnSwitchChanged();
   OnStateChanged();
   
- 
+  
     
   long now = millis();
   
@@ -183,7 +195,13 @@ void loop() {
   if (now - ONLINE_START > 3000) {
       digitalWrite(D7,HIGH);
       STARTUP=false;
+  }if(now  > MOTION_FIRED){
+      if (digitalRead(D3)== 1)
+      {
+         MOTION_DETECTED = 1;
+      }  
   }
+  
   
   //snprintf (msg, 75, "door state=%ld", DOOR_STATE);
    automaton.run();
@@ -214,6 +232,10 @@ void OnSwitchChanged()
     led.begin(LED_BUILTIN).blink(1000,20);
     led.trigger(led.EVT_BLINK);
   }
+ 
+  
+  
+  
 }
 
 void handleEvent(AceButton*  button , uint8_t eventType,
