@@ -154,15 +154,11 @@ buttonConfig->setEventHandler(handleTestEvent);
 buttonConfig->setFeature(ButtonConfig::kFeatureDoubleClick);
 buttonConfig->setFeature(
       ButtonConfig::kFeatureSuppressClickBeforeDoubleClick);
-
-
-
+      
 led.begin(LED_BUILTIN).blink(1500,40);
 led.trigger(led.EVT_BLINK);
 
 ONLINE_START = millis();
-
-
 }
 
 
