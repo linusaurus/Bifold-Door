@@ -1,13 +1,14 @@
 
 /*--------------------------------------------------/
- DESIGNSYNTHESIS Inc.  12-21-2022                   /
+ DESIGNSYNTHESIS Inc.  5-4-2023                 /
  BiFold relay control                               /
  for capacitive switched bifolding doors            /
  Switch activation requires three(3)sequencial taps /
  Work in conjunction with Progressive Automation    /
  Actuator controller.                               /
  v-5.0a  r.young 2-5-2019 --   
- v-5.1   r.young 1-4-2023 --                     /
+ v-5.1   r.young 1-4-2023 -- 
+ v-5.2   r.young 5-4-2023 --                        /
  revised 12-20-2022 r. young --                     /
  removed all wifi and MQTT Capacities               /
 ---------------------------------------------------*/
@@ -62,10 +63,8 @@ void saveConfigCallback () {
 }
 
 
-
 void OnStateChanged()
 {
-  
   
   if(DOOR_STATE==1 && LAST_STATE==2){
       digitalWrite(D5,LOW);
@@ -84,8 +83,6 @@ void OnStateChanged()
       EEPROM.commit();
     }
    
-    
-  
 }
 /*
 Main button handlers set to 3 taps to activate
@@ -118,7 +115,7 @@ void setup() {
   Serial.begin(9600);
 
   //clean FS, for testing
- // SPIFFS.format();
+//SPIFFS.format();
 
  //--------------PINS-------------------------------
   pinMode(BUTTON_PIN, INPUT_PULLUP);
@@ -154,7 +151,7 @@ buttonConfig->setEventHandler(handleTestEvent);
 buttonConfig->setFeature(ButtonConfig::kFeatureDoubleClick);
 buttonConfig->setFeature(
       ButtonConfig::kFeatureSuppressClickBeforeDoubleClick);
-      
+
 led.begin(LED_BUILTIN).blink(1500,40);
 led.trigger(led.EVT_BLINK);
 
@@ -162,6 +159,7 @@ ONLINE_START = millis();
 }
 
 
+/********  MAIN LOOP ********/
 void loop() {
 
  // if (!client.connected()) {
@@ -171,7 +169,7 @@ void loop() {
   button.check();
   //OnSwitchChanged();
   OnStateChanged();
-  digitalWrite(D5,LOW);
+  //digitalWrite(D5,LOW);-removed, not sure why it was here
   
     
   long now = millis();
@@ -181,8 +179,6 @@ void loop() {
       digitalWrite(D6,HIGH);
   }
  
-  
-  
   //snprintf (msg, 75, "door state=%ld", DOOR_STATE);
    automaton.run();
 }
@@ -199,8 +195,8 @@ void OnSwitchChanged()
     EEPROM.write(1,LAST_COMMAND);
     EEPROM.commit();
     Serial.println("SWITCH_OPEN");
-    led.begin(LED_BUILTIN).blink(500,200);
-    led.trigger(led.EVT_BLINK);
+    //led.begin(LED_BUILTIN).blink(500,200);
+    //led.trigger(led.EVT_BLINK);
   }
   
   if(DOOR_STATE==1 && digitalRead(D0)==LOW){
@@ -209,11 +205,9 @@ void OnSwitchChanged()
     Serial.println("SWITCH_CLOSE");
     EEPROM.write(1,LAST_COMMAND);
     EEPROM.commit();
-    led.begin(LED_BUILTIN).blink(1000,20);
-    led.trigger(led.EVT_BLINK);
+   // led.begin(LED_BUILTIN).blink(1000,20);
+    //led.trigger(led.EVT_BLINK);
   }
- 
-  
   
   
 }
