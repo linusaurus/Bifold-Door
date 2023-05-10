@@ -1,6 +1,6 @@
 
 /*--------------------------------------------------/
- DESIGNSYNTHESIS Inc.  5-4-2023                 /
+ DESIGNSYNTHESIS Inc.  5-9-2023                     /
  BiFold relay control                               /
  for capacitive switched bifolding doors            /
  Switch activation requires three(3)sequencial taps /
